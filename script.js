@@ -154,21 +154,52 @@ class LinkedList {
 
 
     swapNodes(nodeA,nodeB){
+       //https://www.geeksforgeeks.org/swap-given-nodes-in-a-doubly-linked-list-without-modifying-data/
 
-        if(nodeA === this.head && nodeB === this.tail){
-             this.swapHeadAndTail(nodeA,nodeB)
-        } else if(nodeB === this.head && nodeA === this.tail){
-            this.swapHeadAndTail(nodeB,nodeA)
-        }else if(nodeA === this.head){
-            this.swapHeadAndMiddle(nodeA,nodeB)
-        }else if(nodeB === this.head){
-            this.swapHeadAndMiddle(nodeB,nodeA)
-        }
-        //begge mid
-        //2 lang
+       //HANDLES HEAD AND TAILS
+        if(nodeA == this.head)
+            this.head = nodeB
+        else if(nodeB == this.head)
+            this.head = nodeA
+        if(nodeA == this.tail)
+            this.tail = nodeB
+        else if(nodeB == this.tail)
+            this.tail = nodeA
 
+    
+        let temp = null
+        temp = nodeA.next //t er den efter a
+        nodeA.next = nodeB.next // a peger på den efter b
+        nodeB.next = temp // b peger på t
+    
+        if(nodeA.next != null)//tjekker A ikke er i enden og hvis ikke får den efter a til at pege tilbage på a
+            nodeA.next.prev = nodeA
+        if(nodeB.next != null)//samme som ovenover men med b
+            nodeB.next.prev = nodeB
+    
+        temp = nodeA.prev 
+        nodeA.prev = nodeB.prev
+        nodeB.prev = temp
+    
+        if(nodeA.prev != null)
+            nodeA.prev.next = nodeA
+        if(nodeB.prev != null)
+            nodeB.prev.next = nodeB
+        
     }
+   
 
+
+}
+
+const ll = new LinkedList();
+console.log(ll);
+
+
+ /*
+
+    IRRELEVANT KODE EFTER BEDRE LØSNING FUNDET :( ;(
+        
     swapHeadAndTail(head, tail){
         tail.prev.next = head;//CHANGE NODE BEFORE B TO POINT NEXT AT A
         head.prev = tail.prev;//SET A'S PREV TO B'S PREV
@@ -180,53 +211,17 @@ class LinkedList {
         this.tail = head;   
     }
     swapHeadAndMiddle(head,middle){
-        middle.prev.next = head;
-        head.prev = middle.prev;
-        head.next.prev = middle;
-        middle.prev = head.next;
+        let nextMiddle = middle.next;
+    
         middle.next = head.next;
-        head.next = middle;
+        head.next.prev = middle;
+        head.next = nextMiddle;
+        nextMiddle.prev = head;
+        
+        head.prev = middle.prev;
+        middle.prev.next = head;
+        middle.prev = null;
+
         this.head = middle;
     }
-    swapTailAndMiddle(tail,middle){
-    
-        
-    }
-
-
-
-
-
-
-
-
-}
-
-const ll = new LinkedList();
-console.log(ll);
-
-
-/*
-nodeB.prev.next = nodeA;//CHANGE NODE BEFORE B TO POINT NEXT AT A
-            nodeA.prev = nodeB.prev;//SET A'S PREV TO B'S PREV
-            nodeB.next =  nodeA.next; // CHANGE B NEXT TO A's OG NEXT
-            nodeA.next.prev = nodeB; //CHANGE PREV OF NODE OGRIGINALLY AFTER A TO POINT TO B
-            nodeA.next = null;//SET ENDS TO NULL
-            nodeB.prev = null;
-            this.head = nodeB;//UPDATE HEADS AND TAILS
-            this.tail = nodeA;   
-
-
-            head and midlle:
-            nodeA.prev = nodeB.prev;
-            nodeB.prev = nodeA.next;
-            nodeA.next = nodeB.next;
-            nodeB.next = nodeB.prev;
-            nodeB.prev = null;
-            nodeA.next.prev = nodeA;
-            nodeA.prev.next = nodeA
-            nodeB.next.prev = nodeB;
-            this.head = nodeB;
-
-
-            */
+    */
