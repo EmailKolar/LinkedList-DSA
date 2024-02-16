@@ -187,9 +187,52 @@ class LinkedList {
             nodeB.prev.next = nodeB
         
     }
-   
 
+    nodeAt(index){
+        let cnt = 0;
+        let temp = this.head;
+        while(temp !== null){
+            if(cnt === index){
+                return temp;
+            }
+            cnt++;
+            temp = temp.next;
+        }
+    }
 
+    removeNodeAt(index){
+        this.removeNode(nodeAt(index));
+    }
+
+    
+    indexOf(data){
+        let temp = this.head;
+        let cnt = 0;
+        while(temp!== null){
+            if(temp.data == data){
+                return cnt;
+            }
+            cnt++;
+            temp = temp.next;
+        }
+    }
+
+    insertAfterIndex(data,index){
+        const newNode = {
+            next: null,
+            prev: null,
+            data: data
+        }
+        this.insertAfterNode(newNode,this.nodeAt(index))
+    }
+    insertBeforeIndex(data,index){
+        const newNode = {
+            next: null,
+            prev: null,
+            data: data
+        }
+        this.insertBeforeNode(newNode,this.nodeAt(index))
+    }
 }
 
 const ll = new LinkedList();
